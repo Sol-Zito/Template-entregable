@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Card from "./Card";
 
 function App() {
+  const [infoUser, setInfoUser] = useState({
+    nombre: "",
+    apellido: "",
+  });
+
+  const [isLogged, setIsLogged] = useState(false);
+
+  const handleChange = (e) => {
+    setInfoUser({ ...infoUser, [e.target.name]: e.target.value });
+    console.log(infoUser);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setIsLogged(true);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Ingrese nombre"
+          name="nombre"
+          onChange={(e) => handleChange(e)}
+        />
+        <input
+          type="text"
+          placeholder="Ingrese apellido"
+          name="apellido"
+          onChange={(e) => handleChange(e)}
+        />
+        <button className="btnSubmit" type="submit">
+          Enviar
+        </button>
+      </form>
+      {isLogged && <Card data={infoUser} />}
     </div>
   );
 }
